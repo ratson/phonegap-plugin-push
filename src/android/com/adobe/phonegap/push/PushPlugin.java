@@ -116,7 +116,7 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
                         } catch (JSONException e) {
                             Log.d(LOG_TAG, "no iconColor option");
                         }
-                        
+
                         boolean clearBadge = jo.optBoolean(CLEAR_BADGE, false);
                         if (clearBadge) {
                             setApplicationIconBadgeNumber(getApplicationContext(), 0);
@@ -279,6 +279,12 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
         gForeground = true;
+
+        if (gCachedExtras != null) {
+            Log.v(LOG_TAG, "sending cached extras");
+            sendExtras(gCachedExtras);
+            gCachedExtras = null;
+        }
     }
 
     @Override
